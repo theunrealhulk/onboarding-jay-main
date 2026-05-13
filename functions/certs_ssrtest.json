@@ -1,0 +1,10 @@
+{
+  "type": "service_account",
+  "project_id": "ssrtest-cebd9",
+  "private_key_id": "abc123",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQD9w9Gr5TOTO8ud\neoaNDyFibM9mLj1BjCba5bYUebQTq4IsdqWC7doPse5yiaDdGMlcgVvo9M3LP3Fv\ny4yWvyERIFprTcnb6nT4q1iZZSUgmQPYzSKJtbkR+GJ29Rs/fxTa0DAQ3dwLXUSP\n4bMAvFi6GWFPgnTozO+HMqFF5edjktFkFSEvZ+AfDLZlcSeYRMJtdR5wjdaFMVr3\nMe+hUDIfGrQgHjD8DXqpMZbelEtwTlLdR/P8avVNdxMvZyfGU3p1XJ7aqda3bcv5\nJV6nOz9qKxd53JJBaTX1RnIsf5PtIZjyXDOZ7B2ijf0faGmavhCoEumKS0t0v5Xg\nt0rRvTbjAgMBAAECggEAGJKyWaBO16Gnr7uVdR1gKmuTXdETP3PdFowkW8rS0Q2Z\nNy/TpGBFIgklDoeDQawZYgRoxdMtOZ907AV2IYOnWRHP9hB8GcT6lLkXuESFTUKX\nKJK2ShPqmvHf3wyqTQJdhThs6+uZixD6B0P5lUdBZ3jDsoy7pqHWfaBw4eR6ydDU\nnXcqP0zhkm2+uqdb+sy+MDzR2rJ3k3vJBBDTWl9ubLWu0CkV8f4GzG3tajxxqaBH\nR3AWXnU2fKr5z+FXnQiZqrvcIPPLbeIg7hM19EHcLPU1xuOWjmcQICj/wyqluMXQ\n9YsCrg/C7Sx5xDY82bHyY8FHHOpqHNww/a2Ol93DEQKBgQD/AqlPQifCrsjmH7VO\nSfD+MziUqkxpIHd4USe/p3dBptz9nfj11hZSBA00OWW4rv/Kqmnih2Z8qBgq3YAT\n/PnT22wkc5vHF806SXGCJCnzOoS8f2gfjjhzhQdRd2hirSiw5R9fTfcGD44rhDqw\nLvEcShHJ8fxEmZ65ZsgCLiG72wKBgQD+v+ucGHsQSqfz+wnQnlrkEFso8JMQCN4S\n1euuphy1iWF/L4LF7YQcraHpJ0Xs9WUeIFpovrvfBfr32zXxzDrYAuWHD3tZNP0M\nywXJ9hkU67xJTkn8O4L7SIxCXiKe9I6LBfhAe7ebkw5BKAjV8YyNxc9wZPngu4XD\nblXUuD8jmQKBgQCnv7FucN9E4sNHFh6nNF6yaTFUIj6HfRL587DJEzmQ11pR/2Px\nG3atVvr0mrk+ZuffAoEKwfT6FX1oXTLOc0BIS/P0epRDwHWBXSSs7msmFB2S/eCZ\nuW2LGDw7K+hf2PaGfwJHKDtSIlNsbtxIX2i+Kj9Pb755xfAyl9kEDiKktwKBgQDc\nJIm8mMMwLvO4uUWgDFhLIX9Ff6/2eVM/P7GteUrx7chdGneOB1TVW47BZvjcbqt1\nP0whnEHJ1ucr7TlOvMhVBxvGfTCAxHOw7HkSMCM4mwZY6tiwqdTkxaq/Z43Pg1Ly\n/LOtNbxTKt90mt4X0+c8VKaQYBI3jJVpbx2o95dIcQKBgFc4qDS77ohQTiIrXrqz\nPTNH+hkkgoYCv1OcTJIzdImgS+DbvKrzLmPIppT7bFmUjrbo8Q9nk9uwsHvrDOpM\nyb4f4pji3+frNCebFj724RAEpMxqghpeGJFPCvkRKOTcrxcdvVVkdCfT6DSU/G6g\n4CX5NPg/NnX9n09twyiI/nVj\n-----END PRIVATE KEY-----\n",
+  "client_email": "test@ssrtest-cebd9.iam.gserviceaccount.com",
+  "client_id": "123456",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token"
+}
