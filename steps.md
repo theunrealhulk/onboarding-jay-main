@@ -88,3 +88,57 @@ interfaces/
 ## 11. Get reports — `GET /reports` (authenticated)
 - No filter: returns all reports
 - With filter `?date=15-08-2026`: returns only reports matching that date
+
+---
+
+## Files to create (ordered by dependency)
+
+```
+Phase 0 — Interfaces (no dependencies)
+  1. src/interfaces/blogPost.ts
+  2. src/interfaces/category.ts
+  3. src/interfaces/report.ts
+
+Phase 1 — Core CRUD
+  4. src/Helpers/constants.ts                          (add REPORT_TIME)
+  5. src/Validators/validateBlogPost.ts                (depends on: blogPost.ts)
+  6. src/DataAccess/Write/setBlogPost.ts               (depends on: blogPost.ts)
+  7. src/DataAccess/Read/getBlogPosts.ts               (depends on: blogPost.ts)
+  8. src/DataAccess/Read/getBlogPost.ts                (depends on: blogPost.ts)
+  9. src/CloudFunctions/cfCreatePost.ts                (depends on: 5, 6)
+  10. src/CloudFunctions/cfGetPosts.ts                  (depends on: 7)
+  11. src/CloudFunctions/cfGetPost.ts                   (depends on: 8)
+  12. src/CloudFunctions/cfUpdatePost.ts                (depends on: 8)
+  13. src/CloudFunctions/cfDeletePost.ts                (depends on: blogPost.ts)
+  14. src/index.ts                                      (export 9-13)
+
+Phase 2 — Votes
+  15. src/DataAccess/Read/getVote.ts
+  16. src/DataAccess/Write/setVote.ts
+  17. src/CloudFunctions/cfUpvote.ts                    (depends on: 15, 16)
+  18. src/CloudFunctions/cfDownvote.ts                  (depends on: 15, 16)
+  19. src/CloudFunctions/cfRevokeVote.ts                (depends on: 15, 16)
+  20. src/CloudFunctions/cfRtdbOnVote.ts
+  21. src/index.ts                                      (export 17-20)
+
+Phase 3 — Auth trigger
+  22. src/CloudFunctions/cfAuthOnSignup.ts
+  23. src/index.ts                                      (export 22)
+
+Phase 4 — Database triggers
+  24. src/DataAccess/Write/setView.ts
+  25. src/CloudFunctions/cfRtdbOnFirstView.ts           (depends on: 24)
+  26. src/CloudFunctions/cfRtdbOnNewPost.ts
+  27. src/index.ts                                      (export 25, 26)
+
+Phase 5 — Storage trigger
+  28. src/CloudFunctions/cfStorageOnImageUpload.ts
+  29. src/index.ts                                      (export 28)
+
+Phase 6 — Reports
+  30. src/DataAccess/Read/getReports.ts
+  31. src/DataAccess/Write/setReport.ts
+  32. src/CloudFunctions/cfPubsubDailyReport.ts         (depends on: 31)
+  33. src/CloudFunctions/cfGetReports.ts                (depends on: 30)
+  34. src/index.ts                                      (export 32, 33)
+```
