@@ -1,0 +1,76 @@
+types
+user (author) (firebaseUser) (name.email,password)
+blogPost{
+    id
+    imgUrl
+    title
+    text
+    category (category)
+    Author (user)
+    PublishedOn
+    views
+    votes
+}
+category{
+    label
+}
+report{
+        heighestViewsPost:[blogposts] //array if there is more than 1 post with same heighest number
+        lowestViewsPost:[blogposts] 
+        heighestVotesPost:[blogposts]
+        lowestVotesPost :[blogposts]
+      
+        mostPostsCategory :[{categoryName,value}]//array if there is more than 1 category with same value
+        leastPostsCategory
+        mostViewsCategory
+        leastViewsCategory
+        mostVotesCategory
+        leastVotesCategory
+}
+    create blogPost (title,img,category,text,publishedOn)
+    all list blogPosts are paginated should be returned with blogPosts that match url while updating  
+    Http functions examples
+    GET /blogPosts (all blogPosts sorted) with pagination (sorted by publishedOn)
+    GET /blogPosts?title=tech (check if title has the word  )
+    GET /blogPosts?text=tech (check if text has the word  )
+    GET /blogPosts?category=tech (check if category label has the word  )
+    GET /blogPosts?author=<author name> 
+    GET /blogPosts?view=(gt|lt|eq)&val=<number>
+    [AUTH]GET /blogPosts/<id> (will return full block)
+                    trigge:[blogposts] 
+:[blogposts] r (increase the blogPost view by 1 if it being red for the first time by user)
+    [AUTH]POST /bolg (will create a blogPost with options (title,text,category,imgUrl))
+            trigger set view and votes to 0
+            trigger imgUrl processing resize it to a squared aspect ratio (if not already) and name it same {[author name]_post_[current timestamp]}
+
+    [AUTH] PUT /blogPost/<id> will update the post
+            trigger processing (if imgUrl changed)
+    [AUTH] DELETE /blogPost/<id> will delete post 
+            trigger delete it's image
+
+    // callable functions (require blogPost id)
+    Upvote increment votes by 1 only allowed once
+    Downvote decrement votes by 1 only allowed once
+    revoke vote (only allowed if already voted)
+
+    // pubsub 
+    daily reports (every day at<env time of the day>)
+
+        {
+            heighestViewsPost
+            lowestViewsPost
+            heighestVotesPost
+            lowestVotesPost 
+            mostPostsCategory 
+            leastPostsCategor
+            mostViewsCategory
+            leastViewsCategory
+            mostVotesCategory
+            leastVotesCategory
+        }
+
+    http for reporst
+    AUTH GET /reports (return all reports) 
+    AUTH GET /reports?date=15-08-2026 // return report of 15-18-2026
+
+

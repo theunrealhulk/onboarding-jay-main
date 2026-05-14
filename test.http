@@ -1,0 +1,182 @@
+### Blog API — Test Suite
+### Requires Firebase Emulators running (npm run serve)
+### Base URL: http://127.0.0.1:5001/ssrtest-cebd9/us-central1
+
+### ─────────────────────────────────────────────
+### Variables
+### ─────────────────────────────────────────────
+@baseUrl = http://127.0.0.1:5001/ssrtest-cebd9/us-central1
+@authToken = owner
+### NOTE: "owner" is a Firebase Auth emulator bypass token.
+### It works ONLY in the emulator. For production, use a real Firebase ID token.
+@postId = REPLACE_WITH_ACTUAL_POST_ID
+
+### ─────────────────────────────────────────────
+### Phase 1: Core CRUD
+### ─────────────────────────────────────────────
+
+### 1. Create a blog post (authenticated)
+POST {{baseUrl}}/createPost
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "title": "Getting Started with Firebase",
+  "text": "Firebase is a powerful platform that provides backend services for web and mobile applications. In this post, we'll explore the basics of Cloud Functions and Realtime Database.",
+  "category": "tech",
+  "imgUrl": "https://example.com/images/firebase-intro.jpg"
+}
+
+### 1a. Create another blog post (tech)
+POST {{baseUrl}}/createPost
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "title": "TypeScript Best Practices in 2026",
+  "text": "TypeScript continues to evolve with new features. Here are the best practices every developer should follow this year.",
+  "category": "tech",
+  "imgUrl": "https://example.com/images/typescript.jpg"
+}
+
+### 1b. Create a blog post (design)
+POST {{baseUrl}}/createPost
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "title": "UI Design Principles for Beginners",
+  "text": "Understanding the fundamental principles of UI design can dramatically improve your applications. Learn about contrast, repetition, alignment, and proximity.",
+  "category": "design",
+  "imgUrl": "https://example.com/images/ui-design.jpg"
+}
+
+### 1c. Create a blog post (science)
+POST {{baseUrl}}/createPost
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "title": "Quantum Computing Explained Simply",
+  "text": "Quantum computing may sound complex, but the core concepts are accessible. This post breaks down qubits, superposition, and entanglement.",
+  "category": "science",
+  "imgUrl": "https://example.com/images/quantum.jpg"
+}
+
+### ─────────────────────────────────────────────
+
+### 2. List all blog posts (no auth required)
+GET {{baseUrl}}/getPosts
+
+### 2a. List posts with pagination
+GET {{baseUrl}}/getPosts?page=1&limit=2
+
+### 2b. List posts filtered by category
+GET {{baseUrl}}/getPosts?category=tech
+
+### 2c. List posts filtered by title containing word
+GET {{baseUrl}}/getPosts?title=Firebase
+
+### 2d. List posts filtered by text containing word
+GET {{baseUrl}}/getPosts?text=TypeScript
+
+### 2e. List posts filtered by author
+GET {{baseUrl}}/getPosts?author=owner
+
+### 2f. List posts filtered by views greater than
+GET {{baseUrl}}/getPosts?view=gt&val=0
+
+### 2g. List posts filtered by views equal
+GET {{baseUrl}}/getPosts?view=eq&val=0
+
+### ─────────────────────────────────────────────
+
+### 3. Get single blog post (authenticated)
+### Requires {{postId}} to be replaced with an actual post ID from the create response
+GET {{baseUrl}}/getPost
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "postId": "{{postId}}"
+}
+
+### ─────────────────────────────────────────────
+
+### 4. Update a blog post (authenticated, owner only)
+PUT {{baseUrl}}/updatePost
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "postId": "{{postId}}",
+  "title": "Getting Started with Firebase — Updated",
+  "text": "Updated content for this blog post."
+}
+
+### 4a. Update only imgUrl
+PUT {{baseUrl}}/updatePost
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "postId": "{{postId}}",
+  "imgUrl": "https://example.com/images/new-image.jpg"
+}
+
+### ─────────────────────────────────────────────
+
+### 5. Delete a blog post (authenticated, owner only)
+DELETE {{baseUrl}}/deletePost
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "postId": "{{postId}}"
+}
+
+### ─────────────────────────────────────────────
+### Auth Error Tests
+### ─────────────────────────────────────────────
+
+### 5a. Create post without auth (should return 401)
+POST {{baseUrl}}/createPost
+Content-Type: application/json
+
+{
+  "title": "Unauthorized Post",
+  "text": "This should fail",
+  "category": "tech"
+}
+
+### 5b. Create post with invalid auth (should return 401)
+POST {{baseUrl}}/createPost
+Content-Type: application/json
+Authorization: Bearer invalid_token
+
+{
+  "title": "Invalid Token Post",
+  "text": "This should fail",
+  "category": "tech"
+}
+
+### 5c. Create post without required fields (should return 400)
+POST {{baseUrl}}/createPost
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "title": "Missing text field"
+}
+
+### ─────────────────────────────────────────────
+### Phase 6: Reports
+### ─────────────────────────────────────────────
+
+### 6. Get all reports (authenticated)
+GET {{baseUrl}}/getReports
+Authorization: Bearer {{authToken}}
+
+### 6a. Get reports by date (authenticated)
+GET {{baseUrl}}/getReports?date=15-08-2026
+Authorization: Bearer {{authToken}}
