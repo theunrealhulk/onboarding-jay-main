@@ -74,3 +74,35 @@ report{
     AUTH GET /reports?date=15-08-2026 // return report of 15-18-2026
 
 
+============================
+Your app already uses RTDB. Shifting to a DB-triggered architecture means clients write/delete data directly to the database, and Cloud Functions react to those changes via functions.database.ref(...).onCreate/onUpdate/onDelete. Here's how each function maps:
+HTTP Function	DB Trigger Replacement
+cfCreatePost	Client writes to a pendingPosts/{pushId} node → onCreate trigger validates, sets authorId/publishedOn, moves to blogPosts/{pushId}
+cfUpdatePost	Client writes to blogPosts/{postId} → onUpdate trigger validates the change
+cfDeletePost	Client writes to deleteRequests/{postId} → onCreate trigger performs the actual delete
+cfUpVote	Client writes to voteRequests/{postId}/{uid} → onCreate trigger validates + atomically increments blogPosts/{postId}/votes
+cfGetPosts / cfGetPost	Eliminated — client reads directly from blogPosts/ via Firebase SDK using orderByChild/limitToFirst and security rules
+Key changes required:
+1. 
+Replace HTTP handlers with functions.database.ref(...).onCreate/onUpdate/onDelete
+2. 
+Add a pendingPosts or staging path in the DB for creates/deletes so triggers can validate before committing
+3. 
+Use Firebase Security Rules on the staging paths to enforce auth (instead of manual token verification in cfCreatePost)
+4. 
+For reads — remove the HTTP functions entirely and have the client query RTDB directly (which is more scalable and cheaper)
+For example, the create flow becomes:
+export const onCreatePost = functions.database
+  .ref("/pendingPosts/{postId}")
+  .onCreate(async (snap, context) => {
+    const data = snap.val();
+    // validate, enrich with auth info
+    data.publishedOn = Date.now();
+    data.authorId = context.auth!.uid; // if using Firebase Auth
+    data.views = 0;
+    data.votes = 0;
+    data.id = context.params.postId;
+    // move to blogPosts
+    await snap.ref.root.child("blogPosts").child(context.params.postId).set(data);
+    await snap.ref.remove(); // clean up pending
+  });
