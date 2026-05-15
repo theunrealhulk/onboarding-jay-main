@@ -18,14 +18,14 @@
     "storage": {
       "port": 5002
     },
+    "database": {
+      "port": 9000
+    },
     "auth": {
       "port": 9099
     },
     "pubsub": {
       "port": 8085
-    },
-    "database": {
-      "port": 9000
     },
     "ui": {
       "enabled": true

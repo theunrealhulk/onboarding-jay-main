@@ -1,4 +1,13 @@
 import "./Helpers/defaultApp";
-import { cfHelloWorld } from "./CloudFunctions/cfHelloWorld";
-
-export const helloWorld = cfHelloWorld;
+//import { cfHelloWorld } from "./CloudFunctions/cfHelloWorld";
+import { cfCreateBlogPost } from "./CloudFunctions/cfCreatePost";
+import { cfGetPosts } from "./CloudFunctions/cfGetPosts";
+import { cfGetPost } from "./CloudFunctions/cfGetPost";
+import { cfUpdatePost } from "./CloudFunctions/cfUpdatePost";   
+import { cfDeletePost } from "./CloudFunctions/cfDeletePost";
+//export const helloWorld = cfHelloWorld;
+export const createBlogPost = cfCreateBlogPost;
+export const getPosts = cfGetPosts;
+export const getPost = cfGetPost;
+export const updatePost = cfUpdatePost;
+export const deletePost = cfDeletePost;
