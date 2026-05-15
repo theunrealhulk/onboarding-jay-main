@@ -2,8 +2,7 @@ import * as functions from "firebase-functions";
 import validateBlogPost from "../Validators/validateBlogPost";
 import setBlogPost from "../DataAccess/Write/setBlogPost";
 import { BlogPost } from "../Interfaces/blogPost";
-import { v4 as uuidv4 } from "uuid";
-import defaultApp from "../Helpers/defaultApp";
+import defaultApp, { defaultDB } from "../Helpers/defaultApp";
 
 async function getAuthFromRequest(
   req: functions.https.Request
@@ -47,7 +46,7 @@ export const cfCreateBlogPost = functions.https.onRequest(async (req, res) => {
   blogPost.publishedOn = Date.now();
   blogPost.views = 0;
   blogPost.votes = 0;
-  blogPost.id = uuidv4();
+  blogPost.id = defaultDB.ref().push().key!;
 
   await setBlogPost(blogPost);
   res.status(200).send(blogPost);

@@ -1,6 +1,5 @@
-import * as sharp from "sharp";
-import { defaultStorage } from "./defaultApp";
-import { v4 as uuidv4 } from "uuid";
+import sharp from "sharp";
+import { defaultStorage, defaultDB } from "./defaultApp";
 
 type ProcessImageUploadInput = {
     source: string;
@@ -28,7 +27,7 @@ export default async function processImageUpload(input: ProcessImageUploadInput)
     const imageSharp = sharp(imageBuffer);
     const imageSharpResized = imageSharp.resize(100, 100);
     const imageSharpResizedBuffer = await imageSharpResized.toBuffer();
-    const imageSharpResizedUrl = `https://firebasestorage.googleapis.com/v0/b/${projectId}.appspot.com/o/ModelPics/${uuidv4()}.jpg`;
+    const imageSharpResizedUrl = `https://firebasestorage.googleapis.com/v0/b/${projectId}.appspot.com/o/ModelPics/${defaultDB.ref().push().key}.jpg`;
     const safe = authorName.replace(/[^\w.-]+/g, "_");
 const dest = `\blogImages/${safe}${postId}${Date.now()}.jpg`;
 await defaultStorage.file(dest).save(imageSharpResizedBuffer, { contentType: "image/jpeg" });
